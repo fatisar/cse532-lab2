@@ -1,0 +1,41 @@
+CSE532 Fall 2011 Lab 0
+
+Jonathan Wald (jwald@wustl.ed)
+Daniel Sarfati (fatisar@gmail.com)
+Guangle Fan (fanguangle@gmail.com)
+
+Overview of program design:
+
+The design of our program is consistent with the lab specifications.  The
+player and dealer take turns sending data to eachother in buffers. In our
+eyes, there were two major design decisions to be made.  The first decision was
+how to store and organize player and game data on the dealer side.  We chose
+to have the dealer class hold two maps, each keyed by strings.  The first map
+hold pointers to dynamically allocated Player objects, the second map holds
+pointers to dynamically allocated Game objects.  This allows us to look up a
+specific game or player in constant time.  Furthermore, looking ahead to future
+labs, we can solve the issue of having players with the same name simply by
+assigning each player a unique ID and using it to key into the map.  The second
+major design decision was how to send the list of games.  We opted to list
+the games as null terminated strings, with an empty string signaling the
+end of the list.  That is, the list ends when two consecutive 0 values are
+read.
+
+Wrapper Facades:
+
+The wrapper facades we used were ACE_INET_Addr, ACE_SOCK_Acceptor,
+ACE_SOCK_Connector, and ACE_SOCK_Stream.  We implemented our own command line
+parsing mechanism.  The ACE_SOCK_Acceptor was helpful in making it easy to
+accept connections from our server and initiate them with a connector from the
+client.  We knew we needed to maintain multiple connections, so we stored a
+ACE_SOCK_Stream object within each player.
+
+Instructions:
+
+1. Unpack the files with "unzip cse532-lab0".  No arguments are necessary.
+2. Build both the client and server programs with a simple "make".
+3. Run the program using the command line arguments specified in the lab.  The
+client executable is "./client" and the server executable is "./server".
+4. The output files from our significant test can be found in the
+"output-files" directory.  The test used multiple clients and multiple
+computers.
