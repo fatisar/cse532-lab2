@@ -13,8 +13,9 @@ EXECUTABLE2     = client
 #		(NOTE: Don't include header (.h) files, or source files
 #		that contain function template or class template member
 #		function definitions.)
-CMPL_SRCS1      = dealer.cpp dealer-svc-handler.cpp dealer-main.cpp player-svc-handler.cpp game-manager.cpp signal-handler.cpp player.cpp deck.cpp hand.cpp card.cpp poker.cpp game.cpp score-cal.cpp
-CMPL_SRCS2      = player-svc-handler.cpp player.cpp dealer.cpp dealer-svc-handler.cpp game-manager.cpp player-main.cpp signal-handler.cpp deck.cpp hand.cpp card.cpp poker.cpp game.cpp score-cal.cpp
+
+CMPL_SRCS1      = dealer.cpp dealer-svc-handler.cpp dealer-main.cpp player-svc-handler.cpp game-manager.cpp signal-handler.cpp player.cpp game.cpp pokerutils/*.cpp #deck.cpp hand.cpp card.cpp poker.cpp score-cal.cpp
+CMPL_SRCS2      = player-svc-handler.cpp player.cpp dealer.cpp dealer-svc-handler.cpp game-manager.cpp player-main.cpp signal-handler.cpp game.cpp pokerutils/*.cpp #deck.cpp hand.cpp card.cpp poker.cpp game.cpp score-cal.cpp
 
 
 #	       Source files containing *only* function template or class 
@@ -36,8 +37,10 @@ OTHER_FILES     = Makefile README
 SPECIAL_FLAGS  =  -DTEMPLATES_MUST_INCLUDE_SOURCE  # -DDEBUG
 
 #	       Please change this if you use a different file extension
-OBJS1     = $(CMPL_SRCS1:.cc=.o)
-OBJS2     = $(CMPL_SRCS2:.cc=.o)
+#OBJS1     = $(CMPL_SRCS1:.cc=.o)
+#OBJS2     = $(CMPL_SRCS2:.cc=.o)
+OBJS1     = $(addprefix src/,$(CMPL_SRCS1:.c=.o))
+OBJS2     = $(addprefix src/,$(CMPL_SRCS2:.c=.o))
 									      #
 #################### CHANGE ANYTHING BELOW THIS LINE AT YOUR OWN RISK ###################
 
@@ -80,14 +83,14 @@ PREVIEWER = /usr/openwin/bin/pageview -right
 DEFFLAGS  = -DUNIX -D_REENTRANT
 
 #	       Any -I directories with .h files that should be included
-INCFLAGS  =     -I/home/daniel/workspace/cse532/ACE_wrappers
+INCFLAGS  =     -I $(ACE_ROOT) -I include
 
 #	       Flags that are specific to SUN object code
 SUNFLAGS  =    #-misalign
 
 #	       Any -L directories in which there are .so files that should
 #	       be linked
-LIBLOCFLAGS     = -L/home/daniel/workspace/cse532/ACE_wrappers/ace -L./
+LIBLOCFLAGS     = -L $(ACE_ROOT)/ace -L./
 
 #	       Any general flags that should be set for the compiler
 #	       NOTE: to optimize fully, change -g to -O4
